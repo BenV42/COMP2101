@@ -17,7 +17,7 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 	fi
 #gathering of data
-mydate="$(date)"
+mydate="$(date +%F)"
 computermodel="$(lshw -class system| grep description: | sed 's/ *description: *//')"
 cpumodel="$(lscpu | grep 'Model name:'| sed 's/.*Model name: *//')"
 source /etc/os-release
