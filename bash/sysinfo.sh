@@ -10,44 +10,74 @@
 # 3. Any IP addresses the machine has that are not on the 127 network (do not include ones that start with 127) from a command such as hostname
 # 4. The amount of space available in only the root filesystem, displayed as a human-friendly number from a command such as df
 
-#need Root privilege, check for it
+#Need Root privilege, check for it
 if [ "$(id -u)" != "0" ]; then
 	echo "You need to be root for this script to work,"
        	echo "consider using sudo"
 	exit 1
 	fi
-#gathering of data
-mydate="$(date +%F)"
-computermodel="$(lshw -class system| grep description: | sed 's/ *description: *//')"
-cpumodel="$(lscpu | grep 'Model name:'| sed 's/.*Model name: *//')"
-source /etc/os-release
-#FQDN=$(hostname -f)
-#myip=$(hostname -I)
-#echo FQDN: $FQDN
+#Variables
+source reportfunctions.sh
 
-#echo Host Information:
-#hostnamectl
+#Report without Command Arguements
+while [ $? -eq 0 ]; do
+        computerreport
+        cpureport
+        osreport
+        ramreport
+        videoreport
+        diskreport
+        networkreport
+        exit 0
+done
 
-#echo IP Addresses: $myip
-#Command for showing all ip including loopback: ip a s|grep -w inet|awk {print $2}
-
-#echo Root FileSystem Status
-#df / -h
-#start of report
-
-cat <<EOF
-System Report produced be $USER on $mydate
-
-System Description
-------------------
-Computer Model: $computermodel
-
-CPU Info
------------------
-Model: $cpumodel
-
-Operating System
-----------------
-OS: $PRETTY_NAME
-
-EOF
+#Loop for checking command arguments
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-h | --help )
+		echo "Usage: $(basename $0) [-h|--help] displays this message and other possible command arguments"
+		echo "Commands: -v for verbosely which shows all commands and errors to the user"
+		echo "		-s or --system to run the report with only the computerreport, osreport, cpureport, ramreport, and videoreport"
+		echo "		-d or --disk only runs the disk report"
+		echo "		-n or --network only runs the network report"
+		exit
+		;;
+	-s | --system )
+		computerreport
+                cpureport
+                osreport
+                ramreport
+                videoreport
+                exit 0
+                ;;
+	-v | --verbosely )
+		set -x
+		computerreport
+		cpureport
+		osreport
+		ramreport
+		videoreport
+		diskreport
+		networkreport
+		exit 0
+		;;
+	-d | --disk )
+		diskreport
+		exit 0
+		;;
+	-n | --network )
+		networkreport
+		exit 0
+		;;
+	* )
+		echo "Unrecognized argument '$1'"
+		exit 1
+		;;
+	esac
+	shift
+done
+#Error message saving with the function error message
+if [ $? -ne 0 ]; then
+	errormessage
+	exit 1
+	fi
