@@ -10,4 +10,4 @@ format-table -Autosize -Wrap | out-string -width 500
 #get-ciminstance win32_networkadapterconfiguration | 
 #where { $_.IPEnabled -eq $True } |
 #new-object -typename psobject -property @{Description=$_.Description; Index=$_.Index; IPAddress=$_.IPAddress; IPSubnet=$_.IPSubnet; #DNSHostName=$_.DNSHostName; DNSDomain=$_.DNSDomain; DNSServerSearchOrder=$_.DNSServerSearchOrder; DHCPEnabled=$_.DHCPEnabled | 
-#format-table -Autosize | format-list
+#format-table -Autosize | 
