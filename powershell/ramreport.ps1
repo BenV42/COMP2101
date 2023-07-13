@@ -3,7 +3,7 @@ Get-CIMInstance win32_physicalmemory |
 foreach {
 	new-object -Typename psobject -Property @{Vendor=$_.manufacturer
 					  Description=$_.description
-					  "Size(GB)"=$_.size / 1gb -as [int]
+					  "Size(GB)"=$_.capacity / 1gb -as [int]
 					  "Bank Slot"=$_.banklabel
 	}
 	$totalram += $_.capacity/1gb
