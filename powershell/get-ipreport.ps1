@@ -7,5 +7,5 @@ sort Index |
 format-table -Autosize Description, Index, IPAddress, IPSubnet, DNSHostName,
 DNSDomain, DNSServerSearchOrder, DHCPEnabled
 }
-
+get-ipreport
 

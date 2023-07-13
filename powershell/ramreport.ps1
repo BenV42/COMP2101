@@ -1,10 +1,10 @@
 $totalram = 0
-$rammem = (Get-CIMInstance win32_physicalmemory)
-foreach ($Tag in $rammem) {
-	new-object -Typename psobject -Property @{Vendor=$rammem.manufacturer
-					  Description=$rammem.description
-					  "Size(GB)"=$rammem.size / 1gb -as [int]
-					  "Bank Slot"=$rammem.banklabel
+Get-CIMInstance win32_physicalmemory |
+foreach {
+	new-object -Typename psobject -Property @{Vendor=$_.manufacturer
+					  Description=$_.description
+					  "Size(GB)"=$_.size / 1gb -as [int]
+					  "Bank Slot"=$_.banklabel
 	}
 	$totalram += $_.capacity/1gb
 } | 
