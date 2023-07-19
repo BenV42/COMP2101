@@ -1,6 +1,9 @@
 #Network Table formatted into a table based on IPEnabled
 
 function get-ipreport {
+"---------------------------------------"
+"|          Network Information        |"
+"---------------------------------------"
 get-ciminstance win32_networkadapterconfiguration | 
 where { $_.IPEnabled -eq $True } | 
 sort Index |

@@ -1,5 +1,5 @@
 #script for getting videocard info and displaying as a list
-
+function get-videoreport {
 "---------------------------------------"
 "|          Video Card Information     |"
 "---------------------------------------"
@@ -14,3 +14,5 @@ foreach {
 				}
 	} |
 format-list Name, Description, Manufacturer, Version, Resolution
+}
+get-videoreport
