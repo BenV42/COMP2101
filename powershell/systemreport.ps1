@@ -295,8 +295,8 @@ function get-ipreport {
 "---------------------------------------"
 
 $netinfo = get-ciminstance win32_networkadapterconfiguration | 
-where { $_.IPEnabled -eq $True } | 
-sort Index |
+Where-Object { $_.IPEnabled -eq $True } | 
+Sort-Object Index |
 Select-Object Description, Index, IPAddress, IPSubnet, DNSHostName, DNSDomain, DNSServerSearchOrder, DHCPEnabled
 
 #If block to check against empty properties
