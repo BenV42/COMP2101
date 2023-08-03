@@ -3,7 +3,7 @@ function get-mydisks {
 "---------------------------------------"
 "|      Disk Storage Information       |"
 "---------------------------------------"
-$diskdrives = Get-CIMInstance win32_diskdrive
+
 #Object Creation Loop 
 $mydisks = get-ciminstance win32_diskdrive |
 	foreach {
@@ -11,7 +11,7 @@ $mydisks = get-ciminstance win32_diskdrive |
       			foreach ($partition in $partitions) {
             			$logicaldisks = $partition | get-cimassociatedinstance -resultclassname win32_logicaldisk
             				foreach ($logicaldisk in $logicaldisks) {
-                     				new-object -typename psobject -property @{Manufacturer=$disk.caption
+                     				new-object -typename psobject -property @{Manufacturer=$_.caption
                                                                		Location=$partition.deviceid
                                                                		Drive=$logicaldisk.deviceid
                                                                		"Size(GB)"=$logicaldisk.size / 1gb -as [int]
@@ -23,22 +23,22 @@ $mydisks = get-ciminstance win32_diskdrive |
 } | Select-Object Drive, Location, Manufacturer,
 		"Free Space(GB)", "Size(GB)", "Percent Free"
 #If block checking against empty sections
-if ($_.Manufacturer -eq $null) { 
+if ($mydisks.Manufacturer -eq $null) { 
 	$mydisks | Add-member -Notepropertyname Manufacturer -Notepropertyvalue "Data Not Available" -force
 }
-if ($_.Location -eq $null) { 
+if ($mydisks.Location -eq $null) { 
 	$mydisks | Add-member -Notepropertyname Location -Notepropertyvalue "Data Not Available" -force
 }
-if ($_.Drive -eq $null) { 
+if ($mydisks.Drive -eq $null) { 
 	$mydisks | Add-member -Notepropertyname Drive -Notepropertyvalue "Data Not Available" -force
 }
-if ($_."Size(GB)" -eq $null) { 
+if ($mydisks."Size(GB)" -eq $null) { 
 	$mydisks | Add-member -Notepropertyname "Size(GB)" -Notepropertyvalue "Data Not Available" -force
 }
-if ($_."Free Space(GB)" -eq $null) { 
+if ($mydisks."Free Space(GB)" -eq $null) { 
 	$mydisks | Add-member -Notepropertyname "Free Space(GB)" -Notepropertyvalue "Data Not Available" -force
 }
-if ($_."Percent Free" -eq $null) { 
+if ($mydisks."Percent Free" -eq $null) { 
 	$mydisks | Add-member -Notepropertyname "Percent Free" -Notepropertyvalue "Data Not Available" -force
 }
 #Formatting Object into a table for viewing 
