@@ -34,6 +34,7 @@ else {
 	get-sysinfo
 	get-cpuinfo
 	get-ram
+	get-mydisks
 	get-videoreport
 	get-ipreport
 }
