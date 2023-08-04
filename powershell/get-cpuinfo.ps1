@@ -3,7 +3,7 @@
 #Start of function and variables
 function get-cpuinfo {
 $cachemem = get-ciminstance win32_cachememory
-$cpuinfo = Get-ciminstance cim_processor |
+$cpuinfo = Get-ciminstance win32_processor |
 
 #loop to make new cpu object
 foreach { 
