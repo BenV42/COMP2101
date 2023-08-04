@@ -171,7 +171,7 @@ $mydisks = get-ciminstance win32_diskdrive |
                                                                		Drive=$logicaldisk.deviceid
                                                                		"Size(GB)"=$logicaldisk.size / 1gb -as [int]
 							       		"Free Space(GB)"=$logicaldisk.freespace / 1gb -as [int]
-							       		"Percent Free"=($logicaldisk.freespace / $logicaldisk.size * 100 )
+							       		"Percent Free"="         " + [string]($logicaldisk.freespace / $logicaldisk.size * 100 -as [int] ) + "%"
                          						}
                                       		}
 			}
