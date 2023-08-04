@@ -12,20 +12,20 @@ foreach {
 				Name=$_.name
 				Description=$_.caption
 				Manufacturer=$_.manufacturer
-				"Current Clock Speed"=$_.currentclockspeed
-				"Max Clock Speed"=$_.maxclockspeed
+				"Current Clock Speed"=[string]$_.currentclockspeed + " Mhz"
+				"Max Clock Speed"=[string]$_.maxclockspeed + " Mhz"
 				"Number of Cores"=$_.numberofcores
-				"L1 Cache"= $cachemem.installedsize[0]
-				"L2 Cache"=$cachemem.installedsize[1]
-				"L3 Cache"=$cachemem.installedsize[2]
+				"L1 Cache (Kb)"=$cachemem.installedsize[0]
+				"L2 Cache (Kb)"=$cachemem.installedsize[1]
+				"L3 Cache (Kb)"=$cachemem.installedsize[2] 
 				}
 } | 
 
 #Selecting objects properties to check for null or empty values
 
 Select-object "Device ID", Name, Description, Manufacturer, "Current Clock Speed",
-		"Max Clock Speed", "Number of Cores", "L1 Cache", "L2 Cache",
-		"L3 Cache"
+		"Max Clock Speed", "Number of Cores", "L1 Cache (Kb)", "L2 Cache (Kb)",
+		"L3 Cache (Kb)"
 
 #If loops checking null against each property value
 
@@ -50,21 +50,21 @@ $cpuinfo | Add-member -Notepropertyname "Max Clock Speed" -Notepropertyvalue "Da
 if ( $null -eq $cpuinfo."Number of Cores" ) {
 $cpuinfo | Add-member -Notepropertyname "Number of Cores" -Notepropertyvalue "Data Not Available" -force 
 }
-if ( $null -eq $cpuinfo."L1 Cache" ) {
+if ( $null -eq $cpuinfo."L1 Cache (Kb)" ) {
 $cpuinfo | Add-member -Notepropertyname "L1 Cache" -Notepropertyvalue "Data Not Available" -force
 }
-if ( $null -eq $cpuinfo."L2 Cache" ) {
+if ( $null -eq $cpuinfo."L2 Cache (Kb)" ) {
 $cpuinfo | Add-member -Notepropertyname "L2 Cache" -Notepropertyvalue "Data Not Available" -force 
 }
-if ( $null -eq $cpuinfo."L3 Cache" ) {
+if ( $null -eq $cpuinfo."L3 Cache (Kb)" ) {
 $cpuinfo | Add-member -Notepropertyname "L3 Cache" -Notepropertyvalue "Data Not Available" -force 
 }
 
 #formatting final object into a list 
 
 $cpuinfo | format-list "Device ID", Name, Description, Manufacturer, "Current Clock Speed",
-		"Max Clock Speed", "Number of Cores", "L1 Cache", "L2 Cache",
-		"L3 Cache"
+		"Max Clock Speed", "Number of Cores", "L1 Cache (Kb)", "L2 Cache (Kb)",
+		"L3 Cache (Kb)"
 
 
 
