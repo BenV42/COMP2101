@@ -1,4 +1,3 @@
-CmdletBinding()
 #Script to Display System information 
 #Parameter block with them all cast as switch to give either a true or false 
 param ( 
