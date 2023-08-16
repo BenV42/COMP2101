@@ -18,7 +18,7 @@ $opname = get-ciminstance win32_operatingsystem
 "---------------------------------------"
 "This report was produced on $time"
 $sysinfo = $compname | 
-		foreach { 
+		ForEach-Object { 
 			new-object -typename psobject -property @{
 				"User Name"=$Env:Username
 				"Computer Name"=$compname.name
@@ -92,7 +92,7 @@ $cachemem = get-ciminstance win32_cachememory
 $cpuinfo = Get-ciminstance cim_processor |
 
 #loop to make new cpu object
-foreach { 
+ForEach-Object { 
 	new-object -typename psobject -property @{
 				"Device ID"=$_.socketdesignation
 				Name=$_.name
@@ -161,7 +161,7 @@ function get-mydisks {
 
 #Object Creation Loop 
 $mydisks = get-ciminstance win32_diskdrive |
-	foreach {
+	ForEach-Object {
 	 	$partitions = get-ciminstance win32_diskdrive | get-cimassociatedinstance -resultclassname win32_diskpartition
       			foreach ($partition in $partitions) {
             			$logicaldisks = $partition | get-cimassociatedinstance -resultclassname win32_logicaldisk
@@ -178,22 +178,22 @@ $mydisks = get-ciminstance win32_diskdrive |
 } | Select-Object Drive, Location, Manufacturer,
 		"Free Space(GB)", "Size(GB)", "Percent Free"
 #If block checking against empty sections
-if ($mydisks.Manufacturer -eq $null) { 
+if ($null -eq $mydisks.Manufacturer) { 
 	$mydisks | Add-member -Notepropertyname Manufacturer -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks.Location -eq $null) { 
+if ($null -eq $mydisks.Location) { 
 	$mydisks | Add-member -Notepropertyname Location -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks.Drive -eq $null) { 
+if ($null -eq $mydisks.Drive) { 
 	$mydisks | Add-member -Notepropertyname Drive -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks."Size(GB)" -eq $null) { 
+if ($null -eq $mydisks."Size(GB)") { 
 	$mydisks | Add-member -Notepropertyname "Size(GB)" -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks."Free Space(GB)" -eq $null) { 
+if ($null -eq $mydisks."Free Space(GB)") { 
 	$mydisks | Add-member -Notepropertyname "Free Space(GB)" -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks."Percent Free" -eq $null) { 
+if ($null -eq $mydisks."Percent Free") { 
 	$mydisks | Add-member -Notepropertyname "Percent Free" -Notepropertyvalue "Data Not Available" -force
 }
 #Formatting Object into a table for viewing 
@@ -211,7 +211,7 @@ function get-ram {
 #Variables and Creating myram object 
 $totalram = 0
 $myram = Get-CIMInstance win32_physicalmemory |
-	foreach {
+	ForEach-Object {
 		new-object -Typename psobject -Property @{Vendor = $_.manufacturer
 					  Description = $_.description
 					  "Size(GB)" = $_.capacity / 1gb -as [int]
@@ -225,27 +225,27 @@ $myram = Get-CIMInstance win32_physicalmemory |
 
 #If block checking for empty property values
 
-if ($myram.Vendor -eq $null) { 
+if ($null -eq $myram.Vendor) { 
 	$myram | Add-member -Notepropertyname Vendor -Notepropertyvalue "Data Not Available" -force
 } 
 
-if ($myram.Description -eq $null) { 
+if ($null -eq $myram.Description) { 
 	$myram | Add-member -Notepropertyname Description -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram."Size(GB)" -eq $null) { 
+if ($null -eq $myram."Size(GB)") { 
 	$myram | Add-member -Notepropertyname "Size(GB)" -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram.Bank -eq $null) { 
+if ($null -eq $myram.Bank) { 
 	$myram | Add-member -Notepropertyname Bank -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram.Slot -eq $null) { 
+if ($null -eq $myram.Slot) { 
 	$myram | Add-member -Notepropertyname Slot -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram.Speed -eq $null) { 
+if ($null -eq $myram.Speed) { 
 	$myram | Add-member -Notepropertyname Speed -Notepropertyvalue "Data Not Available" -force
 } 
 #Formatting Object into a table
@@ -260,7 +260,7 @@ function get-videoreport {
 "|          Video Card Information     |"
 "---------------------------------------"
 $myvideo = get-ciminstance win32_videocontroller | 
-		foreach { 
+		ForEach-Object { 
 			new-object -typename psobject -property @{
 							Name=$_.Name
 							Description=$_.Description
@@ -272,19 +272,19 @@ $myvideo = get-ciminstance win32_videocontroller |
 
 #If block to check for empty property values 
 
-if ($myvideo.Name -eq $null) { 
+if ($null -eq $myvideo.Name) { 
 	$myvideo | Add-member -Notepropertyname Name -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Description -eq $null) { 
+if ($null -eq $myvideo.Description) { 
 	$myvideo | Add-member -Notepropertyname Description -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Manufacturer -eq $null) { 
+if ($null -eq $myvideo.Manufacturer) { 
 	$myvideo | Add-member -Notepropertyname Manufacturer -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Version -eq $null) { 
+if ($null -eq $myvideo.Version) { 
 	$myvideo | Add-member -Notepropertyname Version -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Resolution -eq $null) { 
+if ($null -eq $myvideo.Resolution) { 
 	$myvideo | Add-member -Notepropertyname Resolution -Notepropertyvalue "Data Not Available" -force
 }
 #Formatting object in list and displaying 
