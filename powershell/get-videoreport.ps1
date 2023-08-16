@@ -4,7 +4,7 @@ function get-videoreport {
 "|          Video Card Information     |"
 "---------------------------------------"
 $myvideo = get-ciminstance win32_videocontroller | 
-		foreach { 
+		ForEach-Object { 
 			new-object -typename psobject -property @{
 							Name=$_.Name
 							Description=$_.Description
@@ -16,19 +16,19 @@ $myvideo = get-ciminstance win32_videocontroller |
 
 #If block to check for empty property values 
 
-if ($myvideo.Name -eq $null) { 
+if ($null -eq $myvideo.Name) { 
 	$myvideo | Add-member -Notepropertyname Name -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Description -eq $null) { 
+if ($null -eq $myvideo.Description) { 
 	$myvideo | Add-member -Notepropertyname Description -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Manufacturer -eq $null) { 
+if ($null -eq $myvideo.Manufacturer) { 
 	$myvideo | Add-member -Notepropertyname Manufacturer -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Version -eq $null) { 
+if ($null -eq $myvideo.Version) { 
 	$myvideo | Add-member -Notepropertyname Version -Notepropertyvalue "Data Not Available" -force
 }
-if ($myvideo.Resolution -eq $null) { 
+if ($null -eq $myvideo.Resolution) { 
 	$myvideo | Add-member -Notepropertyname Resolution -Notepropertyvalue "Data Not Available" -force
 }
 #Formatting object in list and displaying 
