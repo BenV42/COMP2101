@@ -13,7 +13,7 @@ $opname = get-ciminstance win32_operatingsystem
 "---------------------------------------"
 "This report was produced on $time"
 $sysinfo = $compname | 
-		foreach { 
+		ForEach-Object { 
 			new-object -typename psobject -property @{
 				"User Name"=$Env:Username
 				"Computer Name"=$compname.name

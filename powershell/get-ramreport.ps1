@@ -6,7 +6,7 @@ function get-ram {
 #Variables and Creating myram object 
 $totalram = 0
 $myram = Get-CIMInstance win32_physicalmemory |
-	foreach {
+	ForEach-Object {
 		new-object -Typename psobject -Property @{Vendor = $_.manufacturer
 					  Description = $_.description
 					  "Size(GB)" = $_.capacity / 1gb -as [int]
@@ -20,27 +20,27 @@ $myram = Get-CIMInstance win32_physicalmemory |
 
 #If block checking for empty property values
 
-if ($myram.Vendor -eq $null) { 
+if ($null -eq $myram.Vendor) { 
 	$myram | Add-member -Notepropertyname Vendor -Notepropertyvalue "Data Not Available" -force
 } 
 
-if ($myram.Description -eq $null) { 
+if ($null -eq $myram.Description) { 
 	$myram | Add-member -Notepropertyname Description -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram."Size(GB)" -eq $null) { 
+if ($null -eq $myram."Size(GB)") { 
 	$myram | Add-member -Notepropertyname "Size(GB)" -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram.Bank -eq $null) { 
+if ($null -eq $myram.Bank) { 
 	$myram | Add-member -Notepropertyname Bank -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram.Slot -eq $null) { 
+if ($null -eq $myram.Slot) { 
 	$myram | Add-member -Notepropertyname Slot -Notepropertyvalue "Data Not Available" -force
 }
  
-if ($myram.Speed -eq $null) { 
+if ($null -eq $myram.Speed) { 
 	$myram | Add-member -Notepropertyname Speed -Notepropertyvalue "Data Not Available" -force
 } 
 #Formatting Object into a table

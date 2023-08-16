@@ -6,7 +6,7 @@ function get-mydisks {
 
 #Object Creation Loop 
 $mydisks = get-ciminstance win32_diskdrive |
-	foreach {
+	ForEach-Object {
 	 	$partitions = get-ciminstance win32_diskdrive | get-cimassociatedinstance -resultclassname win32_diskpartition
       			foreach ($partition in $partitions) {
             			$logicaldisks = $partition | get-cimassociatedinstance -resultclassname win32_logicaldisk
@@ -23,22 +23,22 @@ $mydisks = get-ciminstance win32_diskdrive |
 } | Select-Object Drive, Location, Manufacturer,
 		"Free Space(GB)", "Size(GB)", "Percent Free"
 #If block checking against empty sections
-if ($mydisks.Manufacturer -eq $null) { 
+if ($null -eq $mydisks.Manufacturer) { 
 	$mydisks | Add-member -Notepropertyname Manufacturer -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks.Location -eq $null) { 
+if ($null -eq $mydisks.Location) { 
 	$mydisks | Add-member -Notepropertyname Location -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks.Drive -eq $null) { 
+if ($null -eq $mydisks.Drive) { 
 	$mydisks | Add-member -Notepropertyname Drive -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks."Size(GB)" -eq $null) { 
+if ($null -eq $mydisks."Size(GB)") { 
 	$mydisks | Add-member -Notepropertyname "Size(GB)" -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks."Free Space(GB)" -eq $null) { 
+if ($null -eq $mydisks."Free Space(GB)") { 
 	$mydisks | Add-member -Notepropertyname "Free Space(GB)" -Notepropertyvalue "Data Not Available" -force
 }
-if ($mydisks."Percent Free" -eq $null) { 
+if ($null -eq $mydisks."Percent Free") { 
 	$mydisks | Add-member -Notepropertyname "Percent Free" -Notepropertyvalue "Data Not Available" -force
 }
 #Formatting Object into a table for viewing 

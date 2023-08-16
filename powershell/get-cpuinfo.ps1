@@ -6,7 +6,7 @@ $cachemem = get-ciminstance win32_cachememory
 $cpuinfo = Get-ciminstance win32_processor |
 
 #loop to make new cpu object
-foreach { 
+ForEach-Object { 
 	new-object -typename psobject -property @{
 				"Device ID"=$_.socketdesignation
 				Name=$_.name
